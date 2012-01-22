@@ -29,11 +29,26 @@ CREATE TABLE IF NOT EXISTS `boxtracker` (
   `tid` bigint(20) NULL COMMENT 'Unix timestamp for siste rapportering',
   `gruppe` varchar(20) NULL,
   `passord` varchar(50) NOT NULL COMMENT 'Passord slik at ikke u-authoriserte kan oppdatere',
-  `url` varchar(200) NULL,
-  `master` BOOLEAN NOT NULL DEFAULT false ,
+//  `url` varchar(200) NULL,
+//  `master` BOOLEAN NOT NULL DEFAULT false ,
   `dns_tid` bigint(20) NULL COMMENT 'Unix timestamp for siste oppdatering av dns info',
-  `dns_user` varchar(200) NULL COMMENT 'bruker:pw til dns tjeneste',
+//  `dns_user` varchar(200) NULL COMMENT 'bruker:pw til dns tjeneste',
   `dns_hostname` varchar(200) NULL COMMENT 'domenenavnet som skal oppdateres hos dns',
   `dns_status` varchar(200) NULL COMMENT 'Status på dns oppdateringen',
+//  `dns_type` varchar(200) NULL COMMENT 'dns provider, eks: no-ip, dyndns'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `users` (
+  `userid` bigint(20) NOT NULL COMMENT 'Navnet på datamaskinen (boxen)',
+  `username` varchar(100) NOT NULL COMMENT 'Navnet på datamaskinen (boxen)',
+  `passord` varchar(50) NOT NULL COMMENT 'Passord slik at ikke u-authoriserte kan oppdatere',
+  `master` BOOLEAN NOT NULL DEFAULT false ,
+  `dns_user` varchar(200) NULL COMMENT 'bruker:pw til dns tjeneste',
   `dns_type` varchar(200) NULL COMMENT 'dns provider, eks: no-ip, dyndns'
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+CREATE TABLE IF NOT EXISTS `log` (
+  `errorlvl` int(1) NOT NULL COMMENT 'Unix timestamp for siste rapportering',
+  `description` varchar() NOT NULL COMMENT 'Navnet på datamaskinen (boxen)',
+  `box` varchar(50) NOT NULL COMMENT 'Passord slik at ikke u-authoriserte kan oppdatere',
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8;

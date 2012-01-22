@@ -22,8 +22,8 @@ header("Content-type:text/html; charset=utf-8");
 
 require ("settings.php");
 
-$box = htmlentities(strip_tags(mysql_real_escape_string($_GET['box'])), ENT_QUOTES, "UTF-8"); ;
-$p = htmlentities(strip_tags(mysql_real_escape_string($_GET['p'])), ENT_QUOTES, "UTF-8"); ;
+$box = htmlentities(strip_tags(mysql_real_escape_string($_GET['box'])), ENT_QUOTES, "UTF-8");
+$p = htmlentities(strip_tags(mysql_real_escape_string($_GET['p'])), ENT_QUOTES, "UTF-8");
 
 if ((strlen($box) > 0) && (strlen($p) > 2)) {
 	//Files related to updating
@@ -32,6 +32,9 @@ if ((strlen($box) > 0) && (strlen($p) > 2)) {
 	$tid = time();
 	$ip = $_SERVER['REMOTE_ADDR'];
 
+	/*
+	 * If the box is eligible for automatically getting added if not already in boxtracker
+	 */
 	if ((strncmp($ip, $allowedIpRange, 7) == 0) && !strstr($box, "["))//To-Do: 7 characters???
 	{
 		$Query = "SELECT box, ip, tid, url FROM	boxtracker WHERE box = '$box'";
@@ -39,7 +42,6 @@ if ((strlen($box) > 0) && (strlen($p) > 2)) {
 		$exists = 0;
 		while ($dbRow = mysql_fetch_object($dbResult)) {
 			$exists = 1;
-
 		}
 		if ($exists == 0) {
 			$q = "INSERT INTO boxtracker SET box = '$box', passord = '$p'";
@@ -47,7 +49,9 @@ if ((strlen($box) > 0) && (strlen($p) > 2)) {
 		}
 	}
 
-	//Check the db if the box need dns updating
+	/*
+	 * Check the database if the box need dns updating
+	 */
 	$Query = "SELECT * FROM	boxtracker WHERE box = '$box'";
 	$dbResult = mysql_query($Query);
 	while ($dbRow = mysql_fetch_object($dbResult)) {
@@ -66,7 +70,9 @@ if ((strlen($box) > 0) && (strlen($p) > 2)) {
 		}
 	}
 
-	//update info in db
+	/*
+	 * Update info in the database
+	 */
 	$query = "UPDATE boxtracker SET tid = '$tid', ip ='$ip' WHERE box = '$box' AND passord = '$p'";
 	mysql_query($query);
 	exit();
@@ -81,22 +87,21 @@ include ("man_doc.php");
 <!DOCTYPE html>
 <html>
 	<head>
-		<title><?php  echo "Boxtracker $bt_version on $bt_url";?></title>
-		<link rel="stylesheet" media="screen">
-		<meta http-equiv="content-type" content="text/html; charset=ISO-8859-1">
+		<title><?php echo "Boxtracker $bt_version on $bt_url"; ?></title>
+		<link rel="stylesheet" media="screen" href="browser.css">
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
 	</head>
-	<body text="#DDDDDD" link="#AAFFFF" vlink="#AAFFFF" alink="#AAFFFF" BGCOLOR="#000000">
-		<h1><?php  echo "Boxtracker $bt_version on $bt_url";?></h1>
-		<?
+	<body>
+		<h1><?php echo "Boxtracker $bt_version on $bt_url";?></h1><?php
 		$Query = "SELECT box, ip, tid, url, dns_status, dns_hostname, dns_tid FROM boxtracker ORDER by box";
 		if (!($dbResult = mysql_query($Query))) {
 			print("Couldn't execute query!<BR>\n");
 			print("MySQL reports: " . mysql_error() . "<BR>\n");
 			print("Query was: $Query<BR>\n");
 			exit();
-		}
-		print("<table width=\"100%\"> <tr><td>&nbsp;</td><td> BOKS </td><td>IP</td><td>Sist sett p&aring; nett</td><td></td><td>DNS host</td><td>DNS Status</td><td></td>\n");
-		while ($dbRow = mysql_fetch_object($dbResult)) {
+		}?>
+		<table width="100%"><tr><th>&nbsp;</th><th>Boks</th><th>IP</th><th>Sist sett p&aring; nett</th><th></th><th>DNS host</th><th>DNS Status</th><th></th></tr>
+		<?php while ($dbRow = mysql_fetch_object($dbResult)) {
 
 			print("<tr><td><img src=\"" . pentid($dbRow -> tid, smiley) . "\" /></td><td>$dbRow->box</td><td>");
 			if (strlen($dbRow -> url))
@@ -105,10 +110,10 @@ include ("man_doc.php");
 				print("$dbRow->ip");
 
 			print("</td><td>" . pentid($dbRow -> tid, tid) . "</td><td>" . pentid($dbRow -> tid, siden) . "</td>" . "<td>$dbRow->dns_hostname</td><td>$dbRow->dns_status</td><td>" . pentid($dbRow -> dns_tid, siden) . "</td></tr>\n");
-		}
-		print("</table>\n");
-
-		man_doc();
+		}?>
+		</table>
+		
+		<?php man_doc();
 		man_install($useSsl, $bt_user, $bt_url);
 		man_changelog();
 		?>

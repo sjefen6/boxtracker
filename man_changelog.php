@@ -40,6 +40,10 @@ Todo:
 * Mobil grensesnitt (iPhone): Baktanke: Farger og ikoner.
 * Vurdere meta refresh (10 sek/60 sec)
 
+0.15-b1 - sjefen6 branch 0.2 (2012-01-10)
+* Begynner &aring; gj&oslash;re den html5 valid
+* CSS i egen fil
+
 0.15-b1 (2012-01-06)
 * Forbedret sikkerhet, fjernet mulig SQL-injection.
 * Fjerne kolonne for 'link'. Denne funksjonaliteten er n&aring; en del av ip-kolonnen
@@ -56,7 +60,7 @@ Todo:
 * Endret bredden p&aring; tabellen til 100%.
 
 0.13-rc3 (2011-08-13)
-* Maskiner med nedetid over 30 dager f&aring;r n&aring; nedetid i Ã¥r og m&aring;neder.
+* Maskiner med nedetid over 30 dager f&aring;r n&aring; nedetid i &aring;r og m&aring;neder.
 
 0.13-rc2 - sjefen6 branch 0.1
 * Lagt til støtte for no-ip og dyndns.

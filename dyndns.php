@@ -36,6 +36,9 @@ function update_dns($user, $hostname, $myip, $type) {
 		case dyndns :
 			$dyndns = "https://$user@members.dyndns.org/nic/update?hostname=$hostname&myip=$myip&wildcard=NOCHG&mx=NOCHG&backmx=NOCHG";
 			break;
+		case namecheap :
+			//https://www.namecheap.com/support/knowledgebase/article.aspx/29/11/how-to-use-the-browser-to-dynamically-update-hosts-ip
+			return "Type error!";
 		default :
 			return "Type error!";
 	}
